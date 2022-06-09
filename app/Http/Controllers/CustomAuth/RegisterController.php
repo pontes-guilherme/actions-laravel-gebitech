@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\CustomAuth;
 
 use App\Http\Controllers\Controller;
+use App\Mail\WelcomeMail;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Validator;
 
@@ -37,7 +39,7 @@ class RegisterController extends Controller
         $data = Validator::validate($request->all(), [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'password' => ['required', Rules\Password::defaults()],
         ]);
 
         $user = User::create([
@@ -45,7 +47,7 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
 
-        event(new Registered($user));
+        Mail::to($user)->send(new WelcomeMail($user));
 
         Auth::login($user);
 

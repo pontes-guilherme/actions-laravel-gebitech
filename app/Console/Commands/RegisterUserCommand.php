@@ -2,11 +2,13 @@
 
 namespace App\Console\Commands;
 
+use App\Mail\WelcomeMail;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Validation\Factory;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rules;
 use Illuminate\Support\Str;
 
@@ -27,7 +29,7 @@ class RegisterUserCommand extends Command
             'approved' => true,
         ]);
 
-        event(new Registered($user));
+        Mail::to($user)->send(new WelcomeMail($user));
 
         $this->line("User [{$user->email}] has been registered.");
 
