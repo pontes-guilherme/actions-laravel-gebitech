@@ -2,12 +2,13 @@
 
 namespace App\Actions\Auth;
 
+use App\Contracts\Actions\RegisterUserContract;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules;
 
-class RegisterUser
+class RegisterUser implements RegisterUserContract
 {
     public function __invoke(array $data)
     {

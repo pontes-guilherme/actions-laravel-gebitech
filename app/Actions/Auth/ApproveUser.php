@@ -2,9 +2,10 @@
 
 namespace App\Actions\Auth;
 
+use App\Contracts\Actions\ApproveUserContract;
 use App\Models\User;
 
-class ApproveUser
+class ApproveUser implements ApproveUserContract
 {
     public function __invoke(User $user)
     {

@@ -5,6 +5,8 @@ namespace App\Console\Commands;
 use App\Actions\Auth\ApproveUser;
 use App\Actions\Auth\RegisterUser;
 use App\Actions\Onboarding\OnboardUser;
+use App\Contracts\Actions\ApproveUserContract;
+use App\Contracts\Actions\OnboardUserContract;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Validation\Factory;
 
@@ -15,7 +17,7 @@ class RegisterUserCommand extends Command
     protected $description = 'Register a new user.';
 
 
-    public function handle(Factory $validator, OnboardUser $OnboardUserAction, ApproveUser $approveUserAction): int
+    public function handle(Factory $validator, OnboardUserContract $OnboardUserAction, ApproveUserContract $approveUserAction): int
     {
         $data = $this->data();
 

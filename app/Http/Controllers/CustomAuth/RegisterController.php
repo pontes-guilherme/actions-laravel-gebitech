@@ -4,6 +4,7 @@ namespace App\Http\Controllers\CustomAuth;
 
 use App\Actions\Auth\RegisterUser;
 use App\Actions\Onboarding\OnboardUser;
+use App\Contracts\Actions\OnboardUserContract;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
@@ -29,7 +30,7 @@ class RegisterController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request, OnboardUser $onboardUserAction)
+    public function store(Request $request, OnboardUserContract $onboardUserAction)
     {
         $user = $onboardUserAction($request->all());
 
