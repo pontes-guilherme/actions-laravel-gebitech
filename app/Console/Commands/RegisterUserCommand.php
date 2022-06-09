@@ -2,13 +2,11 @@
 
 namespace App\Console\Commands;
 
-use App\Models\User;
-use Illuminate\Auth\Events\Registered;
+use App\Actions\Auth\ApproveUser;
+use App\Actions\Auth\RegisterUser;
+use App\Actions\Onboarding\OnboardUser;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Validation\Factory;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules;
-use Illuminate\Support\Str;
 
 class RegisterUserCommand extends Command
 {
@@ -17,30 +15,16 @@ class RegisterUserCommand extends Command
     protected $description = 'Register a new user.';
 
 
-    public function handle(Factory $validator): int
+    public function handle(Factory $validator, OnboardUser $OnboardUserAction, ApproveUser $approveUserAction): int
     {
-        $data = $this->validData($validator);
+        $data = $this->data();
 
-        $user = User::create([
-            ...$data,
-            'password' => Hash::make($data['password']),
-            'approved' => true,
-        ]);
-
-        event(new Registered($user));
+        $user = $OnboardUserAction($data);
+        $approveUserAction($user);
 
         $this->line("User [{$user->email}] has been registered.");
 
         return Command::SUCCESS;
-    }
-
-    private function validData(Factory $validator): array
-    {
-        return $validator->make($this->data(), [
-            'email' => ['required', 'email', 'unique:users'],
-            'name' => ['required', 'string', 'max:255'],
-            'password' => ['required', Rules\Password::defaults()],
-        ])->validate();
     }
 
     private function data(): array

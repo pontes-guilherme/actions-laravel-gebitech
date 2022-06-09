@@ -2,15 +2,12 @@
 
 namespace App\Http\Controllers\CustomAuth;
 
+use App\Actions\Auth\RegisterUser;
+use App\Actions\Onboarding\OnboardUser;
 use App\Http\Controllers\Controller;
-use App\Models\User;
 use App\Providers\RouteServiceProvider;
-use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules;
-use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
 {
@@ -32,20 +29,9 @@ class RegisterController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request)
+    public function store(Request $request, OnboardUser $onboardUserAction)
     {
-        $data = Validator::validate($request->all(), [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        ]);
-
-        $user = User::create([
-            ...$data,
-            'password' => Hash::make($data['password']),
-        ]);
-
-        event(new Registered($user));
+        $user = $onboardUserAction($request->all());
 
         Auth::login($user);
 
