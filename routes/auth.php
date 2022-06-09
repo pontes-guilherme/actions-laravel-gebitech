@@ -1,5 +1,6 @@
 <?php
 
+use App\Actions\Auth\RegisterUser;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\ConfirmablePasswordController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
@@ -57,8 +58,8 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware('guest')->group(function () {
-    Route::get('custom-auth/register', [RegisterController::class, 'create'])
+    Route::get('custom-auth/register', fn () => view('custom-auth.register'))
         ->name('custom-auth.register');
 
-    Route::post('custom-auth/register', [RegisterController::class, 'store']);
+    Route::post('custom-auth/register', RegisterUser::class);
 });
