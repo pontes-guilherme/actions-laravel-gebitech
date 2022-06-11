@@ -23,9 +23,9 @@ Linux:
 * Clone o projeto 
 
 * Navegue até o diretório do projeto clonado
-``
+```
 cd actions-laravel-gebitech
-``
+```
 
 <!-- * Instale os pacotes via composer
 ``
@@ -33,34 +33,34 @@ composer install
 `` -->
 
 * Crie um arquivo .env copiando o conteúdo do arquivo .env.example. Se desejar, altere as variáveis do projeto de acordo com sua necessidade
-``
+```
 cp .env.example .env
-``
+```
 
 * Utilize o Laravel Sail para execução dos containeres de serviços do projeto
-``
+```
 ./vendor/bin/sail up -d
-``
+```
 
 * Instale as dependências do Front-end utilizando npm
-``
+```
 npm install
-``
+```
 
 * Gere os arquivos estáticos para que seja possível acessar as views mais atualizadas
-``
+```
 npm run dev
-``
+```
 
 * Acesse o container docker que está executando o Laravel e instale suas dependências
-``
+```
 ./vendor/bin/sail composer install
-``
+```
 
 * Se desejar, gere uma nova chave para sua aplicação
-``
+```
 ./vendor/bin/sail artisan key:generate
-``
+```
 
 **Tip**: Se a utilização do *Laravel Sail* se tornar frequente, pode ser mais conveniente criar um *alias* para o comando.
 Para tal, coloque a linha abaixo no seu arquivo de inicialização de ambiente de preferência (*e.g.* .bashrc, .bash-profile, .zshrc, .profile)
