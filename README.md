@@ -88,37 +88,37 @@ O projeto foi dividido em 4 branches
 
 Em cada uma delas, a ideia de fluxo é semelhante. É possível cadastrar um cliente por meio da interface Web, e por linha de comando utilizando *artisan*.
 
-> Arquivos de interesse comuns:
-> routes/auth.php
-> resources/views/custom-auth/register.blade.php
-> resources/views/mail/welcome.blade.php
-> app/Mail/WelcomeMail.php
+Arquivos de interesse comuns:
+* routes/auth.php
+* resources/views/custom-auth/register.blade.php
+* resources/views/mail/welcome.blade.php
+* app/Mail/WelcomeMail.php
 
 #### main
 Essa branch contém código em estado inicial. Representa um código com regras de negócio repetidas em classes diferentes
 
-> Arquivos de interesse:
-> app/Http/Controllers/CustomAuth/RegisterController.php
-> app/Console/Commands/RegisterUserCommand.php
+Arquivos de interesse:
+* app/Http/Controllers/CustomAuth/RegisterController.php
+* app/Console/Commands/RegisterUserCommand.php
 
 #### refactoring_with_actions
 Tem como origem a branch **main**.
 Essa branch contém o código refatorado para a utilização de Actions. Nesta branch, as Actions foram criadas manualmente
 
-> Arquivos de interesse:
-> app/Http/Controllers/CustomAuth/RegisterController.php
-> app/Console/Commands/RegisterUserCommand.php
-> app/Actions/*
+Arquivos de interesse:
+* app/Http/Controllers/CustomAuth/RegisterController.php
+* app/Console/Commands/RegisterUserCommand.php
+* app/Actions/*
 
 #### actions_and_contracts
 Tem como origem a branch **refactoring_with_actions**.
 Essa branch contém o código refatorado para a utilização de Actions . Nesta branch, as Actions foram criadas manualmente. Além disso, foram utilizadas as ideias de **Injeção de Dependências** e **desacoplamento** para separar a implementação de Actions de sua utilização. Para isso, adicionamos um diretório para contratos.
 
-> Arquivos de interesse:
-> app/Actions/*
-> app/Contracts/*
-> app/Providers/[ActionsServiceProvider.php](https://github.com/pontes-guilherme/actions-laravel-gebitech/blob/actions_and_contracts/app/Providers/ActionsServiceProvider.php "ActionsServiceProvider.php")
-> config/[app.php](https://github.com/pontes-guilherme/actions-laravel-gebitech/blob/actions_and_contracts/config/app.php "app.php")
+Arquivos de interesse:
+* app/Actions/*
+* app/Contracts/*
+* app/Providers/[ActionsServiceProvider.php](https://github.com/pontes-guilherme/actions-laravel-gebitech/blob/actions_and_contracts/app/Providers/ActionsServiceProvider.php "ActionsServiceProvider.php")
+* config/[app.php](https://github.com/pontes-guilherme/actions-laravel-gebitech/blob/actions_and_contracts/config/app.php "app.php")
 
 Note que para que a interface ou contrato (parte abstrata) seja relacionado à uma classe (parte concreta)
  1. A classe precisa implementar a interface em questão
@@ -130,10 +130,10 @@ Tem como origem a branch **refactoring_with_actions**.
 Nessa branch, utilizamos [um pacote para criação de Actions](https://laravelactions.com/) que nos permite usar outras funcionalidades e extender o uso de Actions em contextos diferentes do projeto. 
 Para demostrar brevemente a utilização do pacote, reescrevemos a Action **RegisterUser**.
 
-> Arquivos de interesse
-> app/Actions/Auth/[RegisterUser.php](https://github.com/pontes-guilherme/actions-laravel-gebitech/blob/actions_lib/app/Actions/Auth/RegisterUser.php "RegisterUser.php")
->  routes/auth.php
->  app/Console/Commands/Kernel.php
+Arquivos de interesse
+* app/Actions/Auth/[RegisterUser.php](https://github.com/pontes-guilherme/actions-laravel-gebitech/blob/actions_lib/app/Actions/Auth/RegisterUser.php "RegisterUser.php")
+*  routes/auth.php
+*  app/Console/Commands/Kernel.php
 
 Note que, nesse exemplo, não apenas reaproveitamos a Action **RegisterUser** para utilização como comando e controller, como também removemos os arquivos de **Controller** e **Command** do projeto. Para tal, referenciamos a classe da Action (**RegisterUser.php**) diretamente no arquivo de rotas (para utilização como **Controller**), e no arquivo **Kernel.php** (para utilização como **Command**).
 
